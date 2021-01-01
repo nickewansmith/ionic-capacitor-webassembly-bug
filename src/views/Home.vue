@@ -14,8 +14,9 @@
       </ion-header>
     
       <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+        <strong>{{hash.encoded}}</strong>
+        <strong>{{error}}</strong>
+        <pre>{{stack}}</pre>
       </div>
     </ion-content>
   </ion-page>
@@ -24,6 +25,7 @@
 <script lang="ts">
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { defineComponent } from 'vue';
+import argon2 from 'argon2-browser';
 
 export default defineComponent({
   name: 'Home',
@@ -33,7 +35,27 @@ export default defineComponent({
     IonPage,
     IonTitle,
     IonToolbar
-  }
+  },
+  data () {
+    return {
+      hash: {},
+      error: '',
+      stack: ''
+    }
+  },
+  methods: {
+    async argon2Hash () {
+      try {
+        this.hash = await argon2.hash({ pass: 'password', salt: 'mediterraneanSalt'});
+      } catch (error) {
+        this.error = error.message;
+        this.stack = error.stack;
+      }
+    } 
+  },
+  mounted() {
+    this.argon2Hash();
+  },
 });
 </script>
 
