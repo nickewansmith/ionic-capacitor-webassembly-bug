@@ -1,0 +1,7 @@
+{
+  "name": "ionic-capacitor-webassembly-bug",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
